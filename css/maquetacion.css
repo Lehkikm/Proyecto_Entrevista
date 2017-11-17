@@ -1,0 +1,18 @@
+header{
+  margin-bottom: 70px;
+}
+
+.espacio{
+  width:100%;
+  height:20px;
+}
+
+.vertical-align{
+  display: flex;
+  align-items: center;
+}
+
+article{
+  border-bottom: 1px solid #c4c4c4;
+  margin-bottom: 3em;
+}

@@ -1,0 +1,85 @@
+<!--
+
+PÁGINA: REGISTRO DE USUARIOS
+				********************
+
+-->
+
+<!--Vista-->
+
+<div class="container text-center">
+
+	<div class="col-md-4 col-md-offset-4"> <!--Uso md-offset-4 para centrar la columna-->
+
+		<div id="CabeceraFormularios">
+			<h1>Registrate</h1>
+			<br>
+			<p>
+				Se parte de la comunidad de doctores más grande del mundo
+			</p>
+		</div>
+
+		<div id="leyenda-error" style="display:none; color:red; font-size:16px;">
+
+		</div>
+
+		<div class="espacio">
+
+		</div>
+
+		<form>
+
+			<div class="form-group">
+				<input type="text" class="form-control" id="lbl_nombre" name="txt_registro"placeholder="Nombre" required=""/>
+			</div>
+
+			<div class="form-group">
+				<input type="email" class="form-control" id="lbl_email" name="txt_registro"placeholder="correo@email.com" required=""/>
+			</div>
+
+			<div class="form-group">
+				<input type="password" class="form-control" id="lbl_clave" name="txt_registro"placeholder="••••••••" required=""/>
+			</div>
+
+			<div class="form-group">
+				<input type="password" class="form-control" id="lbl_confirmaClave" name="txt_registro"placeholder="••••••••" required=""/>
+			</div>
+
+			<div class="btn-group-md">
+				<button type="button" class="btn btn-block btn-primary" id="btn_guardar">Guardar</button>
+			</div>
+
+		</form>
+
+	</div>
+
+	<script type="text/javascript">
+
+		var leyendaError= $("#leyenda-error");
+
+		$("#btn_guardar").click(function(){
+
+			var usuario= {
+				nombre: $("#lbl_nombre").val(),
+			 	email: $("#lbl_email").val(),
+				clave: $("#lbl_clave").val(),
+				confirmaClave: $("#lbl_confirmaClave").val()
+			};
+
+			var validacionSatisfactoria= validadorCampos.validaCamposAutomaticamente(usuario, usuario.nombre, usuario.email, usuario.clave, usuario.confirmaClave, leyendaError)
+
+			if (validacionSatisfactoria){
+				asistenteFirebase.creaUsuario(usuario.email, usuario.clave);
+			}
+
+		});
+
+		//Si presionas algún label, se elimina la leyenda de error.
+		$('input[name=txt_registro]').click(function (){
+			console.warn('hola');
+			leyendaError.css('display', 'none');
+		});
+
+	</script>
+
+</div>

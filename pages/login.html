@@ -1,0 +1,72 @@
+<!--
+
+PÁGINA: INICIO DE SESIÓN
+				****************
+
+-->
+
+<!--Vista-->
+
+<div class="container text-center">
+
+	<div name="inicioSesion"class="col-md-4 col-md-offset-4">
+
+		<div id="CabeceraFormularios">
+			<h1>Inicia sesión</h1>
+			<br>
+			<p>
+				Accediendo podrás hacer uso de nuestros servicios
+			</p>
+		</div>
+
+		<div id="leyenda-error" style="display:none; color:red; font-size:16px;">
+
+		</div>
+
+		<div class="espacio">
+
+		</div>
+
+		<form name="form-inicioSesion">
+
+			<div class="form-group">
+				<input type="email" class="form-control" id="lbl_email" name="txt_registro"placeholder="correo@email.com" required=""/>
+			</div>
+
+			<div class="form-group">
+				<input type="password" class="form-control" id="lbl_clave" name="txt_registro"placeholder="••••••••" required=""/>
+			</div>
+
+			<div class="btn-group-md">
+					<button type="button" class="btn btn-block btn-primary" id="btn_guardar">Iniciar sesión</button>
+				<br/>
+				<p>
+					¿No recuerdas tu contraseña? <a href="index.html?seccion=recuperarClave">¡Recupérala!</a>
+				</p>
+			</div>
+
+		</form>
+
+	</div>
+
+	<script type="text/javascript">
+
+		var leyendaError= $("#leyenda-error");
+
+		$("#btn_guardar").click(function(){
+
+		  var email= $("#lbl_email").val(),
+			  clave= $("#lbl_clave").val();
+
+			asistenteFirebase.iniciaSesion(email, clave, leyendaError);
+
+		});
+
+		//Si presionas algún label, se elimina la leyenda de error.
+		$('input[name=txt_registro]').click(function (){
+			leyendaError.css('display', 'none');
+		});
+
+	</script>
+
+</div>

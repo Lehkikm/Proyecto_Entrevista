@@ -1,0 +1,57 @@
+<div class="container text-center">
+
+	<div class="col-md-4 col-md-offset-4">
+
+		<div id="CabeceraFormularios">
+			<h1>Recuperar Contraseña</h1>
+			<br>
+			<p>
+				Escribe tu dirección de e-mail para <br/>
+        iniciar el proceso de recuperación
+			</p>
+		</div>
+
+		<div id="leyenda-error" style="display:none; color:red; font-size:16px;">
+
+		</div>
+
+		<div class="espacio">
+
+		</div>
+
+		<form>
+			<div class="form-group">
+				<input type="email" class="form-control" id="lbl_email" name="txt_registro"placeholder="correo@email.com" required=""/>
+        <br/>
+        <button type="button" class="btn btn-block btn-primary" id="btn_enviar">Enviar</button>
+			</div>
+		</form>
+
+	</div>
+
+	<script type="text/javascript">
+
+		var leyendaError= $("#leyenda-error");
+
+		$("#btn_enviar").click(function(){
+
+      var email= $("#lbl_email").val();
+
+      var emailValido= validadorCampos.validaEmail(email);
+      if (emailValido){
+        asistenteFirebase.recuperaClave(email);
+      } else{
+        leyendaError.show();
+        leyendaError.html('Introduce un e-mail válido');
+      }
+		});
+
+		//Si presionas algún label, se elimina la leyenda de error.
+		$('input[name=txt_registro]').click(function (){
+			console.warn('Eliminando leyenda');
+			leyendaError.css('display', 'none');
+		});
+
+	</script>
+
+</div>
