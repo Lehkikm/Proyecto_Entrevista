@@ -1,12 +1,29 @@
 <h1>Libro de registro</h1>
 
 <br/>
+<!--Lista de asignaturas-->
+<div class="row">
+    <div class="col-md-6">
+        <div class="dropdown" style="display:block">
+            <button class="lista-dropdown" type="button" id="btn_listaAsignaturas" data-toggle="dropdown"
+                aria-expanded="true">Asignatura
+                <span class="caret"></span>
+            </button>
+            <ul id="ul_listaAsignaturas" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="cambiaNombreBotonAsignaturas(this)">Español</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="cambiaNombreBotonAsignaturas(this)">Matemáticas</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="cambiaNombreBotonAsignaturas(this)">Sociales</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="cambiaNombreBotonAsignaturas(this)">Naturalez</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
 <!--Lista de estudiantes-->
 <div class="row">
     <div class="col-md-6">
         <div class="dropdown" style="display:block">
-            <button class="btn btn-default dropdown-toggle col-md-12" type="button" id="btn_listaEstudiantes" data-toggle="dropdown"
-                aria-expanded="true">Escoger al estudiante
+            <button class="lista-dropdown" type="button" id="btn_listaEstudiantes" data-toggle="dropdown"
+                aria-expanded="true">Estudiante
                 <span class="caret"></span>
             </button>
             <ul id="ul_listaEstudiantes" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
@@ -19,70 +36,77 @@
 <br/>
 <br/>
 
-<div class="table-responsive">
+<div class="row table-responsive">
 
-    <table id="tbl_libroCalificaciones" style="font-size:0.8em" class="table table-condensed">
+    <div class="col-md-12">
+        <table id="tbl_libroCalificaciones" style="font-size:0.8em" class="table table-condensed">
 
-        <thead>
-            <tr>
-                <th>Septiembre</th>
-                <th>Octubre</th>
-                <th>Noviembre</th>
-            </tr>
-        </theah>
+            <thead>
+                <tr>
+                    <th>Septiembre</th>
+                    <th>Octubre</th>
+                    <th>Noviembre</th>
+                </tr>
+            </theah>
 
-        <tbody>
-            <td>
-                <input type="text" class="input-calificacion" id="txt_septiembre"> &nbsp;
-                <button id="btn_septiembre" class="btn-comentario" data-toggle="modal" data-target="#myModal">Comentario</button>
-            </td>
-            <td>
-                <input type="text" class="input-calificacion" id="txt_octubre"> &nbsp;
-                <button id="btn_octubre" class="btn-comentario data-toggle="modal" data-target="#myModal"">Comentario</button>
-            </td>
-            <td>
-                <input type="text" class="input-calificacion" id="txt_noviembre"> &nbsp;
-                <button id="btn_noviembre" class="btn-comentario" data-toggle="modal" data-target="#myModal">Comentario</button>
-            </td>
-        </tbody>
-    </table>
+            <tbody>
+                <td>
+                    <input type="text" class="input-calificacion" id="txt_septiembre"> &nbsp;
+                    <button id="btn_septiembre" class="btn-comentario" data-toggle="modal" data-target="#myModal">Comentario</button>
+                </td>
+                <td>
+                    <input type="text" class="input-calificacion" id="txt_octubre"> &nbsp;
+                    <button id="btn_octubre" class="btn-comentario" data-toggle="modal" data-target="#myModal">Comentario</button>
+                </td>
+                <td>
+                    <input type="text" class="input-calificacion" id="txt_noviembre"> &nbsp;
+                    <button id="btn_noviembre" class="btn-comentario" data-toggle="modal" data-target="#myModal">Comentario</button>
+                </td>
+            </tbody>
+        </table>
 
-    <!-- Modal -->
-    <div id="myModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-    
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Agregar comentario</h4>
+        <!-- Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+        
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Agregar comentario</h4>
+                    </div>
+                    <div class="modal-body" style="margin-bottom: 10px;">
+                        <textarea name="comentario" id="text_comentario" class="col-md-12" rows="10"></textarea>
+
+                        <button id="btn_guardarComentario" class="btn btn-default" style="margin-top: 20px;" value="nada">Guardar comentario</button>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
                 </div>
-                <div class="modal-body" style="margin-bottom: 10px;">
-                    <textarea name="comentario" id="text_comentario" class="col-md-12" rows="10" value=""></textarea>
-
-                    <button class="btn btn-primary" style="margin-top: 20px;">Guardar comentario</button>
-                </div>
-                <div class="modal-footer">
-                </div>
+        
             </div>
-    
         </div>
     </div>
 
 </div>
 
-<button id="btn_aplicarCambios" class="btn btn-primary" style="margin-top: 20px;">Modificar calificación</button>
+<div class="row">
+    <button id="btn_aplicarCambios" class="btn btn-primary" style="margin-top: 20px;">Modificar calificación</button>
+</div>
 
 <script>
     asistenteFirebase.detectaUsuario(ofreceListaEstudiantesRegistrados);
 
-    var idEstudiante = null;
-    
+    var idEstudiante = null,
+        comentario_septiembre,
+        comentario_octubre,
+        comentario_noviembre;
+
     var ref = asistenteFirebase.getRaizRef();
+
     function ofreceListaEstudiantesRegistrados() {
         //Obteniendo referencia
-            emailUsuarioActual = AsistenteFirebase.emailUsuarioActual().replace(".", "_"),
-            estudiantesRef = ref.child("Estudiantes");
+        estudiantesRef = ref.child("Estudiantes");
 
         //Escuchando todos los cambios y almacenando los registros
         estudiantesRef.on("value", function (snapshot) {
@@ -121,41 +145,124 @@
         console.log(idEstudiante);
     }
 
-    function modificaCalificacion(calificacion){
-        // 1. Obtener id del estudiante
-        // 2. Aplicar update por medio de una función firebase.
-        var idEstudiante = idEstudiante //Obteniendo el id del paciente de la fila donde se encuentra el botón
-        var estudiantesRef = ref
+    function cambiaNombreBotonAsignaturas(penlace) { //Ejecutado cuando le das a un enlace del dropdown
+        var asignatura = $(penlace).text()
+
+        $("#btn_listaAsignaturas").text(asignatura);
+
+        /* TODO: Fragmento de código usado para guardar la calificación en dependencia de la materia escogida
+            if (asignatura == 'Español')
+                asignatura = 'Espanol';
+
+            asignatura = asignatura.toLocaleLowerCase();
+            console.log(asignatura);
+            $("#txt_septiembre").attr("value",  asignatura + $("#txt_septiembre").attr("id")),
+            $("#txt_octubre").attr("value", asignatura + $("#txt_septiembre").attr("id")),
+            $("#txt_noviembre").attr("value", asignatura + $("#txt_septiembre").attr("id"))
+        */
     }
 
+    // Averiguando cuál es la calificación a la cual se le va a asignar un comentario.
+    $("#btn_octubre").click(function(){
+        $("#btn_guardarComentario").attr("value", "comentario_" + $("#btn_octubre").attr("id"));
+        $("#text_comentario").val(comentario_octubre);
+        console.log(comentario_octubre);
+    });
+
+    $("#btn_noviembre").click(function () {
+        $("#btn_guardarComentario").attr("value", "comentario_" + $("#btn_noviembre").attr("id"));
+        $("#text_comentario").val(comentario_noviembre);
+        console.log(comentario_noviembre);
+    });
+
+     $("#btn_septiembre").click(function () {
+        $("#btn_guardarComentario").attr("value", "comentario_" + $("#btn_septiembre").attr("id"));
+        $("#text_comentario").val(comentario_septiembre);
+        console.log(comentario_septiembre);
+    });
+
+    // Asignando comentario.
+    $("#btn_guardarComentario").click(function(){
+        if ($("#btn_guardarComentario").attr("value") == "comentario_btn_septiembre")
+            comentario_septiembre = $("#text_comentario").val();
+        else if($("#btn_guardarComentario").attr("value") == "comentario_btn_octubre")
+            comentario_octubre = $("#text_comentario").val();
+        else
+            comentario_noviembre = $("#text_comentario").val();
+
+        console.log(comentario_septiembre);
+        console.log(comentario_octubre);
+        console.log(comentario_noviembre);
+    });
+
+
+    /* ¿Cómo guardar los cambios?
+
+            1. Obtener id del estudiante
+            2. Aplicar update por medio de una función firebase.
+
+        Obtener el comentario correspondiente de cada calificación:
+
+            1. Averiguar cuál es la calificación a agregar.
+            2. Almacenar el comentario de la calificación que se agregó.
+            3. Agregarlo al objeto que se va a subir a firebase.
+    */
     $("#btn_aplicarCambios").click(function(){
+    
+        var comentario = {
+            septiembre : comentario_septiembre,
+            octubre : comentario_octubre,
+            noviembre : comentario_noviembre
+        };
+
         var calificacion = {
             noviembre: $("#txt_septiembre").val(),
-            septiembre:$("#txt_octubre").val(),
-            octubre: $("#txt_noviembre").val()
-        }
+            septiembre: $("#txt_octubre").val(),
+            octubre: $("#txt_noviembre").val(),
+            comentario: comentario
+            
+            /* TODO: Fragmento de código usado para guardar la calificación en dependencia de la materia escogida
+            naturalez = {
+                noviembre: $("#naturalez_txt_septiembre").val(),
+                septiembre: $("#naturalez_txt_octubre").val(),
+                octubre: $("#naturalez_txt_noviembre").val(),
+                comentario: comentario
+            },
 
-        var comentario = {
-            septiembre : $("#text_comentario").val(),
-            octubre: $("#text_comentario").val(),
-            noviembre: $("#text_comentario").val(),
-        }
+            espanol = {
+                noviembre: $("#espanol_txt_septiembre").val(),
+                septiembre: $("#espanol_txt_octubre").val(),
+                octubre: $("#espanol_txt_noviembre").val(),
+                comentario: comentario
+            },
+            matematicas = {
+                noviembre: $("#matematicas_txt_septiembre").val(),
+                septiembre: $("#matematicas_txt_octubre").val(),
+                octubre: $("#matematicas_txt_noviembre").val(),
+                comentario: comentario
+            },
+            sociales = {
+                noviembre: $("#sociales_txt_septiembre").val(),
+                septiembre: $("#sociales_txt_octubre").val(),
+                octubre: $("#sociales_txt_noviembre").val(),
+                comentario: comentario
+            }*/
+        };
+
+        validadorCampos.corrigeNulos(comentario);
+        validadorCampos.corrigeNulos(calificacion);
 
         var ref = asistenteFirebase.getRaizRef(),
             estudiantesRef = ref.child("Estudiantes");
-        
+
         estudiantesRef.child(idEstudiante).update({
             calificacion: calificacion
-
         });
 
         console.log(calificacion);
+
     });
 
-    $(".btn-comentario").click(function(){
-        $("textarea[name='comentario']").attr("id", $("#btn_septiembre").attr("id") + idEstudiante);
-        var idComentario = $("#text_comentario").attr("id");
-        console.log(idComentario);
-    })
+
 
 </script>

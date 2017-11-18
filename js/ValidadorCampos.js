@@ -52,6 +52,15 @@ class ValidadorCampos{
     return this.camposValidos;
   }
 
+  corrigeNulos(pobjeto){
+    for (var k in pobjeto) {
+      if (pobjeto[k] == null) {
+        pobjeto[k] = "";
+      }
+    }
+    return pobjeto;
+  }
+
   getEstadoTodosLosCampos(){
     if (!this.emailValido && !this.claveValida && !this.camposValidos && !this.cantidadAceptable){
       this.todosCamposValidos= false;

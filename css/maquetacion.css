@@ -28,3 +28,8 @@ article{
   background-color: white;
   border: 1px solid rgb(134, 134, 134);
 }
+
+.lista-dropdown{
+  background-color: inherit;
+  border: 0px;
+}
