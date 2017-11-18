@@ -20,7 +20,7 @@ class AsistenteFirebase{
     firebase.auth().createUserWithEmailAndPassword(pemail, pclave).then(function(){
       this.AsistenteFirebase.cierraSesion()
       alert("Usuario creado exitosamente");
-      window.location="index.html?seccion=pacientes";
+      window.location="index.html?seccion=libroCalificaciones";
     }).catch(function(error){
       asistenteFirebase.cierraSesion();
       console.log(error);
@@ -31,7 +31,7 @@ class AsistenteFirebase{
 
   iniciaSesion(pemail, pclave, pleyenda){
     firebase.auth().signInWithEmailAndPassword(pemail, pclave).then(function(usuario){
-      window.location ='index.html?seccion=pacientes';
+      window.location ='index.html?seccion=libroCalificaciones';
       }).catch(function(error){
           pleyenda.css('display', 'inline-block');
           pleyenda.html('Usuario o contraseña incorrectos');
@@ -65,6 +65,13 @@ class AsistenteFirebase{
   }
 
   /*------------ DATABASE ------------*/
+
+  agregaRegistro(pdirectorio, pregistro){
+    var nuevoRegistro= this.raizRef.child(pdirectorio).push(pregistro),
+        idRegistro= nuevoRegistro.key;
+
+    console.log(pdirectorio, pregistro);
+  }
 
   guardaRegistroConAdjunto(pdirectorio, pregistro, pimg){
     var email= AsistenteFirebase.emailUsuarioActual().replace('.', '_'),

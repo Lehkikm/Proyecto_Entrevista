@@ -29,7 +29,8 @@ function muestraElementosUsuarioAutenticado() {
   //Esta se ejecuta cuando asistenteFirebase detecta un usuario
 
   $("#li_planificarConsulta").show();
-  $("#li_registroPaciente")
+  $("#li_registro")
+  $("#li_libroCalificaciones")
     .show()
     .addClass("active");
   $("#li_reportes").show();
@@ -41,7 +42,7 @@ function muestraElementosUsuarioAutenticado() {
     "<a href=index.html?seccion=inicio>" +
       AsistenteFirebase.emailUsuarioActual() +
       "</a>"
-  );
+ );
 }
 
 function cambiaSeccion(pagina, pcontenedor) {
@@ -60,8 +61,17 @@ function cambiaSeccion(pagina, pcontenedor) {
     case "recuperarClave":
       pagina = "pages/recuperarClave.html";
       break; 
+
+    case "libroCalificaciones":
+      pagina="pages/libroCalificaciones.html";
+      break;
   }
 
-  //Funciones propias del index
+  var estudiante = {
+    nombre: "Daniel Guerrero",
+    matricula: "2015-3024"
+  };
+
+  //Funciones propias del index 
   $(pcontenedor).load(pagina);
 }
