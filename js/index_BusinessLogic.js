@@ -29,11 +29,9 @@ function muestraElementosUsuarioAutenticado() {
   //Esta se ejecuta cuando asistenteFirebase detecta un usuario
 
   $("#li_planificarConsulta").show();
-  $("#li_registro")
-  $("#li_libroCalificaciones")
-    .show()
-    .addClass("active");
-  $("#li_reportes").show();
+  $("#li_registro");
+  $("#li_libroCalificaciones").show().addClass("active");
+  $("#li_reportes").show(); 
   $("#li_registro").hide();
   $("#li_inicioSesion").hide();
   $("#li_cierreSesion").show();

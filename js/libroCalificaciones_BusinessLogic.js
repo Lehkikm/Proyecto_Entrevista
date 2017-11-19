@@ -1,143 +1,104 @@
-asistenteFirebase.detectaUsuario(ofreceListaEstudiantesRegistrados);
+asistenteFirebase.detectaUsuario(despliegaLibroCalificaciones);
+
+    var ref = asistenteFirebase.getRaizRef(),
+        estudiantesRef = ref.child("Estudiantes");
 
     var idEstudiante = null,
+        nombreEstudiante,
+        matriculaEstudiante,
         asignaturaSeleccionada,
+        mesSeleccionado,
         comentario_septiembre,
         comentario_octubre,
         comentario_noviembre;
 
-    var ref = asistenteFirebase.getRaizRef();
+    function despliegaLibroCalificaciones(){
 
-    function ofreceListaEstudiantesRegistrados() {
-        //Obteniendo referencia
-        estudiantesRef = ref.child("Estudiantes");
+        // "Encendiendo" la búsqueda de estudiantes
+        estudiantesRef.on('value', (snapshot) => {
+            var tbody_libroCalificaciones = $("#tbl_libroCalificaciones tbody"),
+                tr = "",
+                estudiantes = snapshot.val();
 
-        //Escuchando todos los cambios y almacenando los registros
-        estudiantesRef.on("value", function (snapshot) {
-            var estudiantes = snapshot.val(),
-                ul_listaEstudiantes = $("#ul_listaEstudiantes");
+            tbody_libroCalificaciones.empty();
 
-            //Añadiendo propiedades y valores a los elementos creados.
-            for (estudiante in estudiantes) {
-                var a_estudiante = $("<a>", {
-                    role: "menuitem",
-                    tabindex: "-1",
-                    href: "#",
-                    value: estudiantes[estudiante].cedula,
-                    onclick: "cambiaNombreBoton(this)",
-                    id: estudiante
-                });
+            for(estudiante in estudiantes){
+                tr += '<tr id="' + estudiante + '" data-matricula="' + estudiantes[estudiante].matricula + '" data-comentario="' + estudiantes[estudiante].matricula + '">'
+                        +'<td>' 
+                            + '<input class="txt_estudiante" readonly="readonly" type="text" value="'+estudiantes[estudiante].nombre+'"/>'
+                        +'</td>'
 
-                /*<li role="presentation"><a role="menuitem" tabindex="-1" href="#">O +</a></li>*/
-                var li_estudiante = $("<li>", { role: "presentation" });
+                        +'<td>' 
+                            + '<input type="text" class="input-calificacion" readonly="readonly" name="txt_septiembre" data-toggle="modal" data-target="#myModal" onclick="muestraDatosDelEstudianteEnModal(this)" data-mes="septiembre">'
+                        +'</td>' 
 
-                a_estudiante.text(estudiantes[estudiante].nombre + " (" + estudiantes[estudiante].matricula + ")");
-                li_estudiante.append(a_estudiante);
-                ul_listaEstudiantes.append(li_estudiante);
+                        +'<td>'
+                            + '<input type="text" class="input-calificacion" readonly="readonly" name="txt_octubre" data-toggle="modal" data-target="#myModal" onclick="muestraDatosDelEstudianteEnModal(this)" data-mes="octubre">'
+                        +'</td>'
 
-                console.log(a_estudiante.text());
+                        +'<td>' 
+                            + '<input type="text" class="input-calificacion" readonly="readonly" name="txt_noviembre" data-toggle="modal" data-target="#myModal" onclick="muestraDatosDelEstudianteEnModal(this)" data-mes="noviembre">'
+                        +'</td>' 
+                    + '</tr>';
             }
+
+            tbody_libroCalificaciones.append(tr);
+            console.log(estudiantes);
+            fila = "";
         });
-    }
-
-    function cambiaNombreBoton(penlace) { //Ejecutado cuando le das a un enlace del dropdown
-        $("#btn_listaEstudiantes").text($(penlace).text());
-        console.log($(penlace).attr('value'));
-        cedula = $(penlace).attr('value');
-        idEstudiante = $(penlace).attr('id');
-
-        console.log(idEstudiante);
+        
     }
 
     function cambiaNombreBotonAsignaturas(penlace) { //Ejecutado cuando le das a un enlace del dropdown
-        asignaturaSeleccionada = $(penlace).text()
-
+        asignaturaSeleccionada = $(penlace).text();
         $("#btn_listaAsignaturas").text(asignaturaSeleccionada);
-
-        /* TODO: Fragmento de código usado para guardar la calificación en dependencia de la materia escogida
-            if (asignatura == 'Español')
-                asignatura = 'Espanol';
-
-            asignatura = asignatura.toLocaleLowerCase();
-            console.log(asignatura);
-            $("#txt_septiembre").attr("value",  asignatura + $("#txt_septiembre").attr("id")),
-            $("#txt_octubre").attr("value", asignatura + $("#txt_septiembre").attr("id")),
-            $("#txt_noviembre").attr("value", asignatura + $("#txt_septiembre").attr("id"))
-        */
+        asignaturaSeleccionada = asignaturaSeleccionada.toLowerCase();
+        console.log(asignaturaSeleccionada);
     }
 
-    // Averiguando cuál es la calificación a la cual se le va a asignar un comentario.
-    $("#btn_octubre").click(function(){
-        $("#btn_guardarComentario").attr("value", "comentario_" + $("#btn_octubre").attr("id"));
-        $("#text_comentario").val(comentario_octubre);
-        console.log(comentario_octubre);
-    });
+    function muestraDatosDelEstudianteEnModal(ptxt){
+        $("#txt_calificacion").val("");
+        $("#text_comentario").val("");
 
-    $("#btn_noviembre").click(function () {
-        $("#btn_guardarComentario").attr("value", "comentario_" + $("#btn_noviembre").attr("id"));
-        $("#text_comentario").val(comentario_noviembre);
-        console.log(comentario_noviembre);
-    });
+        idEstudiante = $(ptxt).closest('tr').attr('id'); // Obteniendo el id del estudiante del tr mas cercano.
+        mesSeleccionado = $(ptxt).data("mes");
+        nombreEstudiante = $('#' + idEstudiante).find(".txt_estudiante").attr('value');
+        matriculaEstudiante = $('#' + idEstudiante).data('matricula');
+        // asignaturaSeleccionada ya fue inicializada en cambiaNombreBotonAsignaturas.
 
-     $("#btn_septiembre").click(function () {
-        $("#btn_guardarComentario").attr("value", "comentario_" + $("#btn_septiembre").attr("id"));
-        $("#text_comentario").val(comentario_septiembre);
-        console.log(comentario_septiembre);
-    });
+        $("#txt_nombreEstudiante").val(nombreEstudiante);
+        $("#txt_matriculaEstudiante").val(matriculaEstudiante);
 
-    // Asignando comentario.
-    $("#btn_guardarComentario").click(function(){
-        if ($("#btn_guardarComentario").attr("value") == "comentario_btn_septiembre")
-            comentario_septiembre = $("#text_comentario").val();
-        else if($("#btn_guardarComentario").attr("value") == "comentario_btn_octubre")
-            comentario_octubre = $("#text_comentario").val();
-        else
-            comentario_noviembre = $("#text_comentario").val();
+        console.log(asignaturaSeleccionada);
+        estudiantesRef.on('value', snapshot => {
+            var estudiantes = snapshot.val(),
+            // TODO: Tengo que resolver el problema del "undefined".
+            // comentario = JSON.parse(JSON.stringify(estudiantes, function(comentario, nota) {
+            //     if (comentario === undefined || nota == undefined) 
+            //         return null;
 
-        console.log(comentario_septiembre);
-        console.log(comentario_octubre);
-        console.log(comentario_noviembre);
-    });
+            //     return comentario;
+            // }));
+            comentario = estudiantes[idEstudiante].calificacion[asignaturaSeleccionada].comentario[mesSeleccionado],
+            calificacion = estudiantes[idEstudiante].calificacion[asignaturaSeleccionada].nota[mesSeleccionado];
+            
+            if (comentario!=undefined)
+                $("#text_comentario").val(comentario);
+            if (calificacion!=undefined)
+                $("#txt_calificacion").val(calificacion);
+        });
+    }
 
+    $("#btn_guardarCambios").click(function(){
+        var nota = $("#txt_calificacion").val(),
+            comentario = $("#text_comentario").val();
 
-    /* ¿Cómo guardar los cambios?
-
-            1. Obtener id del estudiante
-            2. Aplicar update por medio de una función firebase.
-
-        Obtener el comentario correspondiente de cada calificación:
-
-            1. Averiguar cuál es la calificación a agregar.
-            2. Almacenar el comentario de la calificación que se agregó.
-            3. Agregarlo al objeto que se va a subir a firebase.
-    */
-    $("#btn_aplicarCambios").click(function(){
-    
-        var comentario = {
-            septiembre : comentario_septiembre,
-            octubre : comentario_octubre,
-            noviembre : comentario_noviembre
-        };
-
-
-        var calificacion = {
-            noviembre: $("#txt_septiembre").val(),
-            septiembre: $("#txt_octubre").val(),
-            octubre: $("#txt_noviembre").val(),
-            comentario: comentario
-        };
-
-        validadorCampos.corrigeNulos(comentario);
-        validadorCampos.corrigeNulos(calificacion);
-
-        var ref = asistenteFirebase.getRaizRef(),
-            estudiantesRef = ref.child("Estudiantes");
-
-        
-        estudiantesRef.child(idEstudiante+"/calificacion/" + asignaturaSeleccionada).set(calificacion)
-        //estudiantesRef.child(idEstudiante+"/calificacion").push(calificacion) -- Agrega al nodo de calificaciones una calificacion pero con el nombre del nodo autogenerado por firebase
+        console.log(nota, comentario);
+        console.log(asignaturaSeleccionada);
+        // Guardando comentario.
+        estudiantesRef.child(idEstudiante+"/calificacion/"+asignaturaSeleccionada+"/comentario/"+mesSeleccionado).set(comentario);
+        // Guardando nota.
+        estudiantesRef.child(idEstudiante+"/calificacion/"+asignaturaSeleccionada+"/nota/"+mesSeleccionado).set(nota);
+        //estudiantesRef.child(idEstudiante+"/calificacion/" + asignaturaSeleccionada).set(calificacion)
         //estudiantesRef.child(idEstudiante).update({calificacion : calificacion}); 
-
-        console.log(calificacion);
-
     });
