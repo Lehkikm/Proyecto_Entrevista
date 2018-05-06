@@ -1,5 +1,4 @@
-# Proyecto_Entrevista
-Aquí se encuentra el código fuente de la tarea para la entrevista de trabajo.
+# Sistema de calificaciones con Firebase
 
 La tarea consiste en hacer un sistema de calificaciones teniendo en cuenta las siguientes especificaciones del uso que le va a dar cada usuario del sistema:
 
